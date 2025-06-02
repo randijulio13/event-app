@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Home;
 
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -54,6 +54,6 @@ class TestimonialSection extends Component
             ],
         ];
 
-        return view('components.testimonial-section', compact('testimonials'));
+        return view('components.home.testimonial-section', compact('testimonials'));
     }
 }

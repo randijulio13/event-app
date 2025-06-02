@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Home;
 
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -39,6 +39,6 @@ class WhyUsSection extends Component
                 'description' => 'We keep things easy, honest, and human.',
             ],
         ];
-        return view('components.why-us-section', compact('reasons'));
+        return view('components.home.why-us-section', compact('reasons'));
     }
 }

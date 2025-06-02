@@ -6,5 +6,8 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    //
+    function index()
+    {
+        return view('events.index');
+    }
 }

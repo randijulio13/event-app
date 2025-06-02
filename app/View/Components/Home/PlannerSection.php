@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Home;
 
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -43,6 +43,6 @@ class PlannerSection extends Component
                 'icon' => 'bi-cash-stack',
             ],
         ];
-        return view('components.planner-section', compact('features'));
+        return view('components.home.planner-section', compact('features'));
     }
 }
