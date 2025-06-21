@@ -8,56 +8,105 @@
 
     <div class="w-full space-y-4">
         <template x-for="type in vendorTypes" :key="type.id">
-            <div class="relative">
-                <div :class="{
-                    'border-2 border-accent': form.selectedVendors[type.id],
-                    'border border-gray-200': !form.selectedVendors[type.id]
-                }" class="p-6 rounded-lg bg-white shadow-sm hover:shadow-md transition-all cursor-pointer"
-                    @click="openVendorModal(type.id)">
-                    <!-- Status Indicator -->
+            <div class="space-y-4">
+                <!-- Main vendor selection -->
+                <div class="relative">
                     <div :class="{
-                        'bg-accent': form.selectedVendors[type.id],
-                        'bg-gray-200': !form.selectedVendors[type.id]
-                    }" class="absolute -top-2 -right-2 w-4 h-4 rounded-full border-2 border-white"></div>
+                        'border-2 border-accent': form.selectedVendors[type.id],
+                        'border border-gray-200': !form.selectedVendors[type.id]
+                    }" class="p-6 rounded-lg bg-white shadow-sm hover:shadow-md transition-all cursor-pointer"
+                        @click="openVendorModal(type.id)">
+                        <!-- Status Indicator -->
+                        <div :class="{
+                            'bg-accent': form.selectedVendors[type.id],
+                            'bg-gray-200': !form.selectedVendors[type.id]
+                        }" class="absolute -top-2 -right-2 w-4 h-4 rounded-full border-2 border-white"></div>
 
-                    <div class="flex items-start space-x-6">
-                        <!-- Icon -->
-                        <div class="flex-shrink-0">
-                            <div class="w-12 h-12 flex items-center justify-center rounded-full bg-accent/10">
-                                <i :class="type.icon" class="w-6 h-6 text-accent"></i>
-                            </div>
-                        </div>
-
-                        <!-- Content -->
-                        <div class="flex-1">
-                            <div class="flex items-start justify-between">
-                                <div>
-                                    <h5 class="font-semibold text-lg" x-text="type.label"></h5>
-                                    <p class="text-sm text-gray-600 mt-1" x-text="type.description"></p>
-                                </div>
-                                <div x-show="form.selectedVendors[type.id]" class="text-right">
-                                    <p class="text-sm font-medium text-accent"
-                                        x-text="formatPrice(form.selectedVendors[type.id]?.price)"></p>
+                        <div class="flex items-start space-x-6">
+                            <!-- Icon -->
+                            <div class="flex-shrink-0">
+                                <div class="w-12 h-12 flex items-center justify-center rounded-full bg-accent/10">
+                                    <i :class="type.icon" class="w-6 h-6 text-accent"></i>
                                 </div>
                             </div>
 
-                            <!-- Selected Vendor Info -->
-                            <div x-show="form.selectedVendors[type.id]" class="mt-4 pt-4 border-t">
-                                <div class="flex items-center justify-between">
+                            <!-- Content -->
+                            <div class="flex-1">
+                                <div class="flex items-start justify-between">
                                     <div>
-                                        <p class="text-sm font-medium text-gray-900"
-                                            x-text="form.selectedVendors[type.id]?.name"></p>
-                                        <p class="text-sm text-gray-600"
-                                            x-text="form.selectedVendors[type.id]?.vendor.name"></p>
+                                        <h5 class="font-semibold text-lg" x-text="type.label"></h5>
+                                        <p class="text-sm text-gray-600 mt-1" x-text="type.description"></p>
                                     </div>
-                                    <button class="text-sm text-accent hover:text-accent/80 font-medium">
-                                        Change Selection
-                                    </button>
+                                    <div x-show="form.selectedVendors[type.id]" class="text-right">
+                                        <p class="text-sm font-medium text-accent"
+                                            x-text="formatPrice(form.selectedVendors[type.id]?.price)"></p>
+                                    </div>
+                                </div>
+
+                                <!-- Selected Vendor Info -->
+                                <div x-show="form.selectedVendors[type.id]" class="mt-4 pt-4 border-t">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-900"
+                                                x-text="form.selectedVendors[type.id]?.name"></p>
+                                            <p class="text-sm text-gray-600"
+                                                x-text="form.selectedVendors[type.id]?.vendor.name"></p>
+                                        </div>
+                                        <button class="text-sm text-accent hover:text-accent/80 font-medium">
+                                            Change Selection
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Additional vendors section -->
+                <template x-if="form.selectedVendors[type.id]">
+                    <div>
+                        <!-- Additional selected vendors -->
+                        <template x-if="form.additionalVendors && form.additionalVendors[type.id]">
+                            <div class="space-y-4 mb-4">
+                                <template x-for="(vendor, index) in form.additionalVendors[type.id]" :key="index">
+                                    <div class="relative">
+                                        <div class="p-6 rounded-lg bg-white shadow-sm border-2 border-accent">
+                                            <div class="flex items-start justify-between">
+                                                <div>
+                                                    <p class="text-sm font-medium text-gray-900" x-text="vendor.name">
+                                                    </p>
+                                                    <p class="text-sm text-gray-600" x-text="vendor.vendor.name"></p>
+                                                </div>
+                                                <div class="flex items-center space-x-4">
+                                                    <p class="text-sm font-medium text-accent"
+                                                        x-text="formatPrice(vendor.price)"></p>
+                                                    <button @click="removeAdditionalVendor(type.id, index)"
+                                                        class="text-red-500 hover:text-red-600">
+                                                        <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+
+                        <!-- Add additional vendor button -->
+                        <button @click="openAdditionalVendorModal(type.id)"
+                            class="w-full py-2 px-4 border-2 border-dashed border-accent/30 rounded-lg text-accent hover:bg-accent/5 transition-colors flex items-center justify-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                            <span>Add Another <span x-text="type.label"></span></span>
+                        </button>
+                    </div>
+                </template>
             </div>
         </template>
     </div>

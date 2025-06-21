@@ -24,6 +24,7 @@ export default () => ({
             mother: "",
         },
         selectedVendors: {},
+        additionalVendors: {},
     }),
     error: {
         eventName: "",
@@ -98,15 +99,36 @@ export default () => ({
         },
     ],
     init() {
-        // Initialize selectedVendors with empty values for each type
+        // Initialize selectedVendors and additionalVendors with empty values for each type
         this.vendorTypes.forEach((type) => {
             this.form.selectedVendors = {
                 ...this.form.selectedVendors,
+            };
+            this.form.additionalVendors = {
+                ...this.form.additionalVendors,
+                [type.id]: [],
             };
         });
     },
 
     async openVendorModal(typeId) {
+        this.currentVendorType = typeId;
+        this.showVendorModal = true;
+        this.loading = true;
+
+        try {
+            const response = await fetch(`/vendor-items/${typeId}`);
+            const items = await response.json();
+            this.availableVendors[typeId] = items;
+        } catch (error) {
+            console.error("Error fetching vendor items:", error);
+            this.availableVendors[typeId] = [];
+        }
+
+        this.loading = false;
+    },
+
+    async openAdditionalVendorModal(typeId) {
         this.currentVendorType = typeId;
         this.showVendorModal = true;
         this.loading = true;
@@ -262,13 +284,35 @@ export default () => ({
     },
 
     selectVendor(item) {
-        this.form.selectedVendors[this.currentVendorType] = {
-            id: item.id,
-            name: item.name,
-            price: item.price,
-            vendor: item.vendor,
-        };
-        this.showVendorModal = false;
+        if (this.showVendorModal) {
+            if (!this.form.selectedVendors[this.currentVendorType]) {
+                // If no primary vendor is selected, set it as the primary vendor
+                this.form.selectedVendors[this.currentVendorType] = {
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                    vendor: item.vendor,
+                };
+            } else {
+                // Add as an additional vendor
+                if (!this.form.additionalVendors[this.currentVendorType]) {
+                    this.form.additionalVendors[this.currentVendorType] = [];
+                }
+                this.form.additionalVendors[this.currentVendorType].push({
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                    vendor: item.vendor,
+                });
+            }
+            this.showVendorModal = false;
+        }
+    },
+
+    removeAdditionalVendor(typeId, index) {
+        if (this.form.additionalVendors[typeId]) {
+            this.form.additionalVendors[typeId].splice(index, 1);
+        }
     },
 
     submitForm() {
