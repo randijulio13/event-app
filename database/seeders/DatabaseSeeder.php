@@ -20,11 +20,15 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        User::create([
-            'name' => 'Admin',
-            'email' => 'admin@mail.com',
-            'password' => 'password',
-            'email_verified_at' => now()
+        // User::create([
+        //     'name' => 'Admin',
+        //     'email' => 'admin@mail.com',
+        //     'password' => 'password',
+        //     'email_verified_at' => now()
+        // ]);
+
+        $this->call([
+            VendorSeeder::class,
         ]);
     }
 }

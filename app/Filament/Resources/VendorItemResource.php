@@ -79,9 +79,11 @@ class VendorItemResource extends Resource
                     ->label('Images')
                     ->getStateUsing(function ($record) {
                         // Tampilkan gambar pertama saja di tabel
-                        $images = json_decode($record->images, true);
+                        $images = $record->images;
                         return $images[0] ?? null;
-                    }),
+                    })
+                    ->circular()
+                    ->defaultImageUrl(url('assets/notfound.svg')),
             ])
             ->filters([
                 //

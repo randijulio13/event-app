@@ -32,12 +32,14 @@
 </div>
 
 <script>
-    var swiper = new Swiper(".swiper", {
-        slidesPerView: 4,
-        loop: true,
-        spaceBetween: 30,
-        autoplay: {
-            delay: 3000
-        }
-    });
+    document.addEventListener('DOMContentLoaded', function() {
+        var swiper = new Swiper(".swiper", {
+            slidesPerView: 4,
+            loop: true,
+            spaceBetween: 30,
+            autoplay: {
+                delay: 3000
+            }
+        });
+    })
 </script>

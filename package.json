@@ -14,5 +14,10 @@
         "sass-embedded": "^1.89.0",
         "tailwindcss": "^4.1.7",
         "vite": "^6.2.4"
+    },
+    "dependencies": {
+        "@alpinejs/persist": "^3.14.9",
+        "alpinejs": "^3.14.9",
+        "swiper": "^11.2.8"
     }
 }

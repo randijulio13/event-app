@@ -1,51 +1,24 @@
-<div class="w-full overview-auto">
-    <div class="px-10 py-6 bg-secondary hidden lg:block">
-        <ol class="relative border-primary border-s">
-            @foreach($steps as $step)
-            @if($step['active'])
-            <li class="mb-10 ms-6 flex">
-                <span class="absolute flex items-center justify-center w-8 h-8 bg-primary rounded-full -start-4 ring-primary">
-                    <x-icon name="{{ $step['icon'] }}" class="text-secondary" />
-                </span>
-                <h3 class="text-primary text-sm leading-tight mt-2">{{ $step['label']}} </h3>
-            </li>
-            @else
-            <li class="mb-10 ms-6 flex">
-                <span class="absolute flex items-center justify-center w-8 h-8 bg-secondary rounded-full outline outline-primary -start-4">
-                    <x-icon name="{{ $step['icon'] }}" class="text-primary" />
-                </span>
-                <h3 class="text-primary text-sm leading-tight mt-2">{{ $step['label']}} </h3>
-            </li>
-            @endif
-            @endforeach
-        </ol>
-    </div>
-
-
-
-
-
-    <ol class="flex items-center max-w-screen text-xs text-center text-white sm:text-base lg:hidden w-full overview-scroll-x p-4 bg-secondary justify-center">
-        @foreach($steps as $step)
-        @if($step['active'])
-        <li class="flex md:w-full items-center text-primary font-bold sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-primary/80 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10">
-            <span class="flex items-center after:mx-2 after:text-primary @if(!$loop->last) after:content-['/']  @endif gap-1">
-                <x-icon name="{{ $step['icon'] }}" />
-                {{ $step['label'] }}
-            </span>
-        </li>
-        @else
-        <li class="flex md:w-full items-center text-primary/40 font-light sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-primary/80 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10">
-            <span class="flex items-center after:mx-2 after:text-primary/40 @if(!$loop->last) after:content-['/']  @endif gap-1">
-                <x-icon name="{{ $step['icon'] }}" />
-                {{ $step['label'] }}
-            </span>
-        </li>
-        @endif
-        @endforeach
-
-    </ol>
-
-
-
-</div>
+<ol class="flex items-center w-full text-sm font-medium text-center text-secondary sm:text-base">
+    <li class="flex md:w-full items-center sm:after:content-[''] after:w-full after:h-0.5 after:rounded-full after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10"
+        :class="{'text-accent after:bg-secondary': step === 1, 'after:bg-primary text-primary': step > 1}">
+        <span class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200">
+            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor" viewBox="0 0 20 20">
+                <path
+                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+            </svg>
+            Event <span class="hidden sm:inline-flex sm:ms-2">Data</span>
+        </span>
+    </li>
+    <li class="flex md:w-full items-center after:content-[''] after:w-full after:h-0.5 after:bg-secondary after:rounded-full after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10"
+        :class="{'text-accent': step === 2, 'text-primary': step > 2}">
+        <span class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200">
+            <span class="me-2">2</span>
+            Vendor <span class="hidden sm:inline-flex sm:ms-2">Data</span>
+        </span>
+    </li>
+    <li class="flex items-center">
+        <span class="me-2">3</span>
+        Confirmation
+    </li>
+</ol>

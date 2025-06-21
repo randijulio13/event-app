@@ -2,6 +2,7 @@
 
 namespace App\View\Components\Home;
 
+use App\Models\Testimonial;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -21,38 +22,10 @@ class TestimonialSection extends Component
      */
     public function render(): View|Closure|string
     {
-        $testimonials = [
-            [
-                'author' => 'John Doe',
-                'content' => 'This service was amazing and truly exceeded my expectations!',
-                'position' => 'CEO, Example Corp',
-            ],
-            [
-                'author' => 'Jane Smith',
-                'content' => 'A wonderful experience from start to finish. Highly recommended!',
-                'position' => 'Marketing Director, Sample Inc',
-            ],
-            [
-                'author' => 'Alice Johnson',
-                'content' => 'Professional, efficient, and friendly. Could not ask for more.',
-                'position' => 'Freelancer',
-            ],
-            [
-                'author' => 'Alice Johnson',
-                'content' => 'Professional, efficient, and friendly. Could not ask for more.',
-                'position' => 'Freelancer',
-            ],
-            [
-                'author' => 'Alice Johnson',
-                'content' => 'Professional, efficient, and friendly. Could not ask for more.',
-                'position' => 'Freelancer',
-            ],
-            [
-                'author' => 'Alice Johnson',
-                'content' => 'Professional, efficient, and friendly. Could not ask for more.',
-                'position' => 'Freelancer',
-            ],
-        ];
+        $testimonials = Testimonial::where('is_active', true)
+            ->orderBy('sort_order')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return view('components.home.testimonial-section', compact('testimonials'));
     }
